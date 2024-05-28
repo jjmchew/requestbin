@@ -3,8 +3,7 @@ import './App.css'
 import TopBar from './components/TopBar.tsx';
 import RequestList from './components/RequestList.tsx';
 
-function App() {
-
+function App(response) {
   const sampleData = [
     {
       id: 12,
@@ -13,7 +12,7 @@ function App() {
       method: 'GET',
       url: '/sample/get',
       path: '/request?id=3439',
-      headers: { v1: 'k1', v2: 'k2', v3: 'k3', v4: 'k4'},
+      headers: { v0: 'k0', v2: 'k2', v3: 'k3', v4: 'k4'},
       body: 'asdfja;sdflkjas;lfaslm425ijh241l24;l5m l;lmn 2;lkm541l3 m;l4im;46',
     },
     {
@@ -28,11 +27,12 @@ function App() {
     },
   ];
 
+  
   return (
     <>
       <div>requestBin</div>
       <TopBar url="http://209.34.31.23/ka93kjdk2" />
-      <RequestList data={sampleData} />
+      <RequestList data={response.data} />
     </>
   )
 }
