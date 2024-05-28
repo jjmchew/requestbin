@@ -1,0 +1,26 @@
+.container {
+  width: 40vw;
+}
+
+.rowWrap {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: baseline;
+}
+
+.time {
+  width: 20%;
+  font-size: 0.6rem;
+  overflow: hidden;
+}
+
+.method {
+  width: 12%;
+  color: blue;
+}
+
+.path {
+  color: grey;
+  overflow: hidden;
+}
