@@ -8,13 +8,13 @@ function App() {
   const sampleData = [
     {
       id: 12,
-      dateTime: Date.now(),
+      dateTime: new Date().toUTCString(),
       method: 'GET',
       path: '/sample/get/request?id=3439',
     },
     {
       id: 13,
-      dateTime: Date.now(),
+      dateTime: new Date().toUTCString(),
       method: 'POST',
       path: '/sample/post/request/',
     },
