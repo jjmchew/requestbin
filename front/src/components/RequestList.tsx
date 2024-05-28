@@ -8,8 +8,9 @@ const RequestList = ({ data }: RequestListProps) => {
   let display = data.map(obj => {
     return (
       <div className={classes.rowWrap}>
-        <div className={classes.date}>{obj.date} {obj.time}</div>
+        <div className={classes.date}>{obj.date_received} {obj.time_received}</div>
         <div className={classes.method}>{obj.method}</div>
+        <div className={classes.path}>{obj.url}</div>
         <div className={classes.path}>{obj.path}</div>
         <div className={classes.headers}>{JSON.stringify(obj.headers)}</div>
         <div className={classes.body}>{JSON.stringify(obj.body)}</div>
