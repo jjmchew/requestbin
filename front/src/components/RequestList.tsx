@@ -11,6 +11,8 @@ const RequestList = ({ data }: RequestListProps) => {
         <div className={classes.date}>{obj.date} {obj.time}</div>
         <div className={classes.method}>{obj.method}</div>
         <div className={classes.path}>{obj.path}</div>
+        <div className={classes.headers}>{JSON.stringify(obj.headers)}</div>
+        <div className={classes.body}>{JSON.stringify(obj.body)}</div>
       </div>
     );
   });
