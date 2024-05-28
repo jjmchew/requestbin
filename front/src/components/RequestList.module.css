@@ -5,14 +5,15 @@
 .rowWrap {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 150%;
   align-items: baseline;
+  cursor: pointer;
 }
 
 .time {
   width: 20%;
   font-size: 0.6rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .method {
@@ -22,5 +23,14 @@
 
 .path {
   color: grey;
-  overflow: hidden;
+  /* overflow: hidden; */
+}
+
+.headers {
+  color: green;
+  /* overflow: hidden; */
+}
+
+.body {
+  /* overflow: hidden; */
 }

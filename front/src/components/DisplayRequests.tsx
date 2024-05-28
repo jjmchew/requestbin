@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import classes from './DisplayRequests.module.css';
 import RequestList from './RequestList.tsx';
 import RequestDetail from './RequestDetail.tsx';
@@ -7,11 +8,18 @@ interface DisplayRequestsProps {
 }
 
 const DisplayRequests = ({ data }: DisplayRequestsProps) => {
+  const [selected, setSelected] = useState<number | null>(null);
+
+  const handleClick = (e, id: number) => {
+    console.log('handleClick', id);
+    setSelected(id);
+  };
+
   return (
     <>
       <div className={classes.container}>
-        <RequestList data={data} />
-        <RequestDetail />
+        <RequestList data={data} handleClick={handleClick} />
+        <RequestDetail selectedId={selected} data={data} />
       </div>
     </>
   )
