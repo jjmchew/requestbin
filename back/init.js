@@ -1,6 +1,4 @@
 // This is a script file to initialize the MongoDb database
-
-
 db = connect('mongodb://localhost/projdb');
 
 db.requests.insertMany([
