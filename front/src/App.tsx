@@ -1,7 +1,7 @@
 // import { useState } from 'react'
 import './App.css'
 import TopBar from './components/TopBar.tsx';
-import RequestList from './components/RequestList.tsx';
+import DisplayRequests from './components/DisplayRequests.tsx';
 
 function App() {
 
@@ -13,7 +13,7 @@ function App() {
       method: 'GET',
       url: '/sample/get',
       path: '/request?id=3439',
-      headers: { v1: 'k1', v2: 'k2', v3: 'k3', v4: 'k4'},
+      headers: { v1: 'sup', v2: 'k2', v3: 'k3', v4: 'k4'},
       body: 'asdfja;sdflkjas;lfaslm425ijh241l24;l5m l;lmn 2;lkm541l3 m;l4im;46',
     },
     {
@@ -23,8 +23,8 @@ function App() {
       method: 'POST',
       url: '/sample/post',
       path: '/request?id=3439',
-      headers: { v1: 'k1', v2: 'k2'},
-      body: '81f6awe1r31av4vvvv;lkm541l3 f',
+      headers: { v1: 'AYYYYY', oooooo: 'ahhhhh'},
+      body: '81f6awe1r31av4we did itvvvv;lkm541l3 f',
     },
   ];
 
@@ -32,7 +32,7 @@ function App() {
     <>
       <div>requestBin</div>
       <TopBar url="http://209.34.31.23/ka93kjdk2" />
-      <RequestList data={sampleData} />
+      <DisplayRequests data={sampleData} />
     </>
   )
 }

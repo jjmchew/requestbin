@@ -2,18 +2,17 @@ import classes from './RequestList.module.css';
 
 interface RequestListProps {
   data: any[],
+  handleClick: any,
 }
 
-const RequestList = ({ data }: RequestListProps) => {
+const RequestList = ({ data, handleClick }: RequestListProps) => {
   let display = data.map(obj => {
     return (
-      <div className={classes.rowWrap}>
-        <div className={classes.date}>{obj.date_received} {obj.time_received}</div>
-        <div className={classes.method}>{obj.method}</div>
+      <div key={obj.id} className={classes.rowWrap}>
+        <div onClick={(e) => handleClick(e, obj.id)} className={classes.date}>{obj.date_received} {obj.time_received}</div>
+        <div onClick={(e) => handleClick(e, obj.id)} className={classes.method}>{obj.method}</div>
         <div className={classes.path}>{obj.url}</div>
         <div className={classes.path}>{obj.path}</div>
-        <div className={classes.headers}>{JSON.stringify(obj.headers)}</div>
-        <div className={classes.body}>{JSON.stringify(obj.body)}</div>
       </div>
     );
   });
@@ -29,3 +28,7 @@ const RequestList = ({ data }: RequestListProps) => {
 };
 
 export default RequestList;
+
+
+// <div className={classes.headers}>{JSON.stringify(obj.headers)}</div>
+// <div className={classes.body}>{JSON.stringify(obj.body)}</div>
