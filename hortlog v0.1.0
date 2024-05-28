@@ -1,0 +1,71 @@
+[33mcommit 002afd2a487069aa32c7b09bc991a58b1d33a13f[m[33m ([m[1;36mHEAD -> [m[1;32mfront[m[33m, [m[1;31morigin/front[m[33m)[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Tue May 28 08:07:07 2024 -0600
+
+    added initial components
+
+[33mcommit 50dae1197d006de743bf1c900d1190defbb24101[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 21:51:18 2024 -0600
+
+    added notes
+
+[33mcommit fe7ed691c86cb02a6ffee7327cc698a14ec96d6a[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 21:42:15 2024 -0600
+
+    updated docker and module/test file
+
+[33mcommit bebf457f5f4f9bd2fecb7fb5146627d87454a21c[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 19:42:25 2024 -0600
+
+    new3
+
+[33mcommit bb684188b1bded72f785cf2761d2f60f86a5fe87[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 19:41:46 2024 -0600
+
+    another test file
+
+[33mcommit 798fbb614ec49fa8aab38d0f1fbf953ecc51b54a[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 19:41:04 2024 -0600
+
+    test file
+
+[33mcommit a8495ed47d7303b8a00f3e6eba100db119db7e00[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 19:30:19 2024 -0600
+
+    initial mongodb module created
+
+[33mcommit cc462b02d3d764b175d74ed7308dae0dade2bff4[m[33m ([m[1;32mmain[m[33m)[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 15:31:13 2024 -0600
+
+    mongo docker setup
+
+[33mcommit ad4152aaaaadb6435ac92bade904467476347e04[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 15:19:17 2024 -0600
+
+    cleaned up template
+
+[33mcommit 5c8ee025ad6822b3f7bf91952fca38c3e321bfcf[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 15:13:53 2024 -0600
+
+    updated package.json w/ node version
+
+[33mcommit c99d2bd51e600fd9962c060f116d208304c23ad4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: jjmchew <jjmchew@gmail.com>
+Date:   Mon May 27 14:53:31 2024 -0600
+
+    basic setup
+
+[33mcommit 36c19cc26d09ac776449d7c5820eb78d5c8ce716[m
+Author: jjmchew <49774645+jjmchew@users.noreply.github.com>
+Date:   Mon May 27 14:40:32 2024 -0600
+
+    Initial commit
