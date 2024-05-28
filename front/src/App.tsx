@@ -4,7 +4,6 @@ import TopBar from './components/TopBar.tsx';
 import DisplayRequests from './components/DisplayRequests.tsx';
 
 function App() {
-
   const sampleData = [
     {
       id: 12,
@@ -28,6 +27,7 @@ function App() {
     },
   ];
 
+  
   return (
     <>
       <div>requestBin</div>
