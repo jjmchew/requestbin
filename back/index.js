@@ -1,7 +1,6 @@
 const config = require('./lib/config');
 const pgQuery = require('./lib/db-query.js');
 const express = require('express');
-const format = require("./lib/format.js");
 const apiRouter = require("./controllers/api.js");
 const { useMongo } =  require('./models/mongo.js');
 
