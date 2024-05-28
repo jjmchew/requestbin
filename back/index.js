@@ -3,7 +3,7 @@ const pgQuery = require('./lib/db-query.js');
 const express = require('express');
 const format = require("./lib/format.js");
 const apiRouter = require("./controllers/api.js");
-const useMongo =  require('./models/mongo.js');
+const { useMongo } =  require('./models/mongo.js');
 
 const app = express();
 
@@ -29,49 +29,20 @@ app.all('/:binName', async (req, res, next) => {
 
   let binId = result.rows[0].id
 
-  /*
-  bin_id,
-  method
-  url
-  path
-  date_received
-  time_received
-  */
-
-  // // format sql request
-  const dateObj = format.date();
-  const date = dateObj.date;
-  const time = dateObj.time;
   const method = req.method;
-  const path = req.path
-  const url = req.headers.host + req.url;
+  const path = req.path;
 
-  console.log(method, path, url);
-  res.status(200).send(method, path, url);
-  // // add metadata to sql requestTable
-  // // Note, the requests table yet to be created
-  // const insertRequest = "INSERT INTO requests (bin_id, date, time, method) VALUES ($1, $2, $3, $4)"
-  // let insertResult = await pgQuery(insertRequest, binId, date, time, method)
-
-
-  // // ?? How do you grab the id(pk of req in sql reqs table) for immediate use in creating the entires in mongo db?
-  // // untested
-  // const requestId = insertRequest.insertedId
-
-  // // using the request_id from sql
-  //   // send the request data to rawrs mongo collection
-  //   // request_headers_body 
-  //       // parse the headers
-  //       // parse the body
-  //       // add to mongo
-  //           // {req_id: xxx, headers: {...}, body: {...}}
+  const INSERT_REQUEST = "INSERT INTO requests (bin_id, method, path) VALUES ($1, $2, $3) RETURNING id";
+  let insertResult = await pgQuery(INSERT_REQUEST, binId, method, path);
+  const requestId = insertResult.rows[0].id
   
-  // // const requestObj = {request_id: requestId, headers: req.headers , body: req.body}
-  // // useMongo.put(requestObj)
-  
-  // res.send({
-  //   requestId
-  // });
+  const requestObj = {request_id: requestId, headers: req.headers , body: req.body}
+  await useMongo.put(requestObj).catch(error => {
+    next(error);
+    return;
+  })
+
+  res.status(200);
 })
 
 function errorHandler(err, req, res, next) {
