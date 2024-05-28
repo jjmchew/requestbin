@@ -6,7 +6,7 @@ const CONNECTION = {
   ssl: config.NODE_ENV === "production" ? { rejectedUnauthorized: false } : false,
 };
 
-module.exports = async function dbQuery(statement, ...parameters) {
+module.exports = async function pgQuery(statement, ...parameters) {
   let client = new Client(CONNECTION);
 
   await client.connect();
