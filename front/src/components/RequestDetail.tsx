@@ -1,4 +1,4 @@
-import classes from './RequestDetail.module.css';
+// import classes from './RequestDetail.module.css';
 
 interface RequestDetailProps {
   data: any[],
@@ -18,7 +18,7 @@ const RequestDetail = ({ data, selectedId }: RequestDetailProps) => {
       </div>
     );
   });
-    
+
 
   return (
     <div>

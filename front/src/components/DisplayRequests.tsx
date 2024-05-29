@@ -10,7 +10,7 @@ interface DisplayRequestsProps {
 const DisplayRequests = ({ data }: DisplayRequestsProps) => {
   const [selected, setSelected] = useState<number | null>(null);
 
-  const handleClick = (e, id: number) => {
+  const handleClick = (id: number) => {
     console.log('handleClick', id);
     setSelected(id);
   };
