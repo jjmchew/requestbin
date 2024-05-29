@@ -2,7 +2,6 @@ const apiRouter = require("express").Router();
 const pgQuery = require("../lib/db-query");
 const { useMongo } = require("../models/mongo");
 
-// /api/requests
 apiRouter.get('/', (req, res) => {
   const data = [
     {
@@ -30,18 +29,19 @@ apiRouter.get('/', (req, res) => {
 });
 
 apiRouter.get('/:binName/requests', async (req, res) => {
-  const PG_GET_REQUESTS = 'SELECT r.id, r.bin_id, r.method, r.path, r.datetime_received FROM bins INNER JOIN requests AS r ON bins.id = r.bin_id WHERE bins.name = $1';
+  const PG_GET_REQUESTS = 'SELECT r.id, r.bin_id, ' +
+                          'r.method, r.path, r.datetime_received ' +
+                          'FROM bins INNER JOIN requests AS r ' +
+                          'ON bins.id = r.bin_id ' +
+                          'WHERE bins.name = $1';
 
   const pgResult = await pgQuery(PG_GET_REQUESTS, req.params.binName);
   res.status(200).send(pgResult.rows);
 });
 
-// apiRouter.get('/:binName/:requestId', (req, res) => {
-//   const requestId = req.params.requestId
-//   const requestData = useMongo.getOne(requestId)
-
-// // assuming request data is an object 
-//   return requestData
-// });
+apiRouter.get('/:binName/requests/:requestId', async (req, res) => {
+  const request = await useMongo.getOne(+req.params.requestId);
+  res.status(200).send(request);
+});
 
 module.exports = apiRouter;

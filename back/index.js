@@ -37,13 +37,13 @@ app.all('/:binName', async (req, res, next) => {
   let insertResult = await pgQuery(INSERT_REQUEST, binId, method, path);
   const requestId = insertResult.rows[0].id
   
-  const requestObj = {request_id: requestId, headers: req.headers , body: req.body}
+  const requestObj = { request_id: requestId, headers: req.headers , body: req.body }
   await useMongo.put(requestObj).catch(error => {
     next(error);
     return;
   })
 
-  res.status(200);
+  res.status(200).send('done');
 })
 
 function errorHandler(err, req, res, next) {
