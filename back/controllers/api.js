@@ -2,6 +2,36 @@ const apiRouter = require("express").Router();
 const pgQuery = require("../lib/db-query");
 const { useMongo } = require("../models/mongo");
 
+// import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; // but switch to require?
+// import Welcome from "./components/Welcome.js" // do we need to make it .tsx?
+
+apiRouter.post('/', async (req, res) => {
+  // random 20 chars
+  function randomName() {
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let randomString = '';
+    for (let i = 0; i < 20; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      randomString += charset[randomIndex];
+    }
+    return randomString;
+  }
+
+  // make new bin w/name `binName`
+  let binName = randomName()
+  
+  // save new bin to db
+  const query = "INSERT INTO bins (name) VALUES ($1)" 
+  let insertResult = await pgQuery(query, binName);
+
+  // redirect user to /view/newBinName
+  // res.redirect(`/view/${binName}`)
+  let binNamePackage = JSON.stringify({ name: binName })
+  res.status(200).send(binNamePackage)
+
+  // need to return binName to construct path
+})
+
 apiRouter.get('/', (req, res) => {
   const data = [
     {

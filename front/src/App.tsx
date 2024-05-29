@@ -28,6 +28,18 @@ function App() {
   //   ];
 
   const [appData, setAppData] = useState([]);
+  
+  // make request collects data from /api/
+  // in other words, it pulls the sample data
+  // but what we want is for this to grab the data for
+  // a specific name '/api/:binName/requests'
+
+  // which means `makeRequest` will be on one page of the app
+  // "Binview"
+
+  // The landing page of the app will have a link, 
+  // clicking link will fetch 'api/createBin'
+  // and return the binName
 
   const makeRequest = async () => {
     let link = 'http://localhost:3000/api/';
@@ -47,7 +59,6 @@ function App() {
     makeRequest().then(data => {
       setAppData(data);
     });
-    // why is array empty?
   }, []);
 
   console.log('app.tsx');

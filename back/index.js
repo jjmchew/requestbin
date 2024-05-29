@@ -18,8 +18,14 @@ app.use(express.static('public'));
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
-
+  // res.redirect -> /public/welcome.html
+  res.redirect('/public/welcome.html')
 });
+
+
+
+
+
 
 // path for accepting all request types
 app.all('/:binName', async (req, res, next) => {
