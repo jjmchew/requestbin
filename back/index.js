@@ -1,5 +1,6 @@
 const config = require('./lib/config');
 const pgQuery = require('./lib/db-query.js');
+const cors = require("cors");
 const express = require('express');
 const apiRouter = require("./controllers/api.js");
 const { useMongo } =  require('./models/mongo.js');
@@ -7,6 +8,7 @@ const { useMongo } =  require('./models/mongo.js');
 const app = express();
 
 // middleware to process common data types
+app.use(cors());
 app.use(express.json());
 app.use(express.raw({ limit: "1mb" }));
 app.use(express.text());
