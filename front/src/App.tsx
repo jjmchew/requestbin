@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import TopBar from './components/TopBar.tsx';
 import DisplayRequests from './components/DisplayRequests.tsx';
@@ -27,12 +27,35 @@ function App() {
     },
   ];
 
+  const [appData, setAppData] = useState([]);
+
+  const makeRequest = async () => {
+    let link = 'http://localhost:3000/api/';
+
+    try {
+      const response = await fetch(link);
+      // what does data look like?
+      const data = await response.json();
+      console.log(data)
+      return data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  useEffect(() => {
+    makeRequest().then(data => {
+      setAppData(data);
+    });
+    // why is array empty?
+  }, []);
   
+  console.log('app.tsx');
   return (
     <>
       <div>requestBin</div>
       <TopBar url="http://209.34.31.23/ka93kjdk2" />
-      <DisplayRequests data={sampleData} />
+      <DisplayRequests data={appData} />
     </>
   )
 }
