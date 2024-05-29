@@ -6,7 +6,8 @@ interface RequestListProps {
 }
 
 const RequestList = ({ data, handleClick }: RequestListProps) => {
-  let display = data.map(obj => {
+  console.log('RequestList: ', data);
+  const display = data.map(obj => {
     return (
       <div key={obj.id} className={classes.rowWrap}>
         <div onClick={(e) => handleClick(e, obj.id)} className={classes.date}>{obj.date_received} {obj.time_received}</div>
