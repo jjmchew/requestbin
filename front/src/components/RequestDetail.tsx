@@ -1,24 +1,36 @@
 // import classes from './RequestDetail.module.css';
+import { useEffect } from 'react'
+import { baseURL } from '../constants.ts'
 
 interface RequestDetailProps {
-  data: any[],
+  binName: string,
   selectedId: number | null,
 }
 
-const RequestDetail = ({ data, selectedId }: RequestDetailProps) => {
-  if (!selectedId) {
-    return (<div>Select a request</div>);
-  }
+const RequestDetail = ({ binName, selectedId }: RequestDetailProps) => {
 
-  let display = data.filter(obj => obj.id == selectedId).map(obj => {
-    return (
-      <div key={obj.id}>
-        <div>{JSON.stringify(obj.headers)}</div>
-        <div>{obj.body}</div>
-      </div>
-    );
-  });
+  const makeRequest = async () => {
+    let url = `${baseURL}/api/${binName}/requests/${selectedId}`;
 
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log('RequestDetail: data', data)
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  let display = null;
+
+  useEffect(()=> {
+    if (!selectedId) {
+      makeRequest().then(data => {
+        console.log('RequestDetail data: ', data);
+      });
+    }
+  }, [selectedId]);
 
   return (
     <div>

@@ -6,7 +6,7 @@ interface TopBarProps {
 const TopBar = ({ url }: TopBarProps) => {
   return (
     <>
-      <div className={classes.bar}>Your Endpoint is {url}</div>
+      <div className={classes.bar}>Send webhooks to <span className={classes.url}>{url}</span></div>
     </>
   )
 };
