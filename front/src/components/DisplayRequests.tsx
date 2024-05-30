@@ -4,10 +4,11 @@ import RequestList from './RequestList.tsx';
 import RequestDetail from './RequestDetail.tsx';
 
 interface DisplayRequestsProps {
-  data: any[];
+  data: any[],
+  binName: string,
 }
 
-const DisplayRequests = ({ data }: DisplayRequestsProps) => {
+const DisplayRequests = ({ data, binName }: DisplayRequestsProps) => {
   const [selected, setSelected] = useState<number | null>(null);
 
   const handleClick = (id: number) => {
@@ -15,11 +16,12 @@ const DisplayRequests = ({ data }: DisplayRequestsProps) => {
     setSelected(id);
   };
 
+  console.log('DisplayRequests, selected:',selected);
   return (
     <>
       <div className={classes.container}>
         <RequestList data={data} handleClick={handleClick} />
-        <RequestDetail selectedId={selected} data={data} />
+        <RequestDetail selectedId={selected} binName={binName} />
       </div>
     </>
   )
