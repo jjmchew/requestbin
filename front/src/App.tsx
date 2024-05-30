@@ -1,4 +1,4 @@
-import { Routes, Route, useParams } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import LandingPage from './components/LandingPage.tsx'
 import RequestsPage from './components/RequestsPage.tsx'
 import './App.css'
