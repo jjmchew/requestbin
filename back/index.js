@@ -1,9 +1,9 @@
 const config = require('./lib/config');
-const pgQuery = require('./lib/db-query.js');
 const cors = require("cors");
 const express = require('express');
 const apiRouter = require("./controllers/api.js");
 const { useMongo } =  require('./models/mongo.js');
+const { usePostgres } = require("./models/postgres.js");
 
 const app = express();
 
@@ -22,35 +22,30 @@ app.get('/', (req, res) => {
   res.redirect('/public/welcome.html')
 });
 
-
-
-
-
+// temporary: to stop the stupid browser favicon requests from messing up console.logs
+app.get('/favicon.ico', (req, res) => {
+  res.status(404).send();
+});
 
 // path for accepting all request types
 app.all('/:binName', async (req, res, next) => {
   try {
     const binName = req.params.binName;
-    const query = "SELECT * FROM bins WHERE name = ($1)";
-    const result = await pgQuery(query, binName).catch(error => next(error));
+    const bin = await usePostgres.findBinByName(binName);
 
-    if (result.rows.length === 0) {
-      next('Bin could not be found.');
-      return;
-    }
+    const binId = bin.id;
+    const newRequestId = await usePostgres.insertRequest(binId, req.method, req.path);
 
-    let binId = result.rows[0].id
+    const newRequest = {
+      request_id: newRequestId,
+      headers: req.headers,
+      body: req.body
+    };
 
-    const INSERT_REQUEST = "INSERT INTO requests (bin_id, method, path) VALUES ($1, $2, $3) RETURNING id";
-    let insertResult = await pgQuery(INSERT_REQUEST, binId, req.method, req.path);
-    const requestId = insertResult.rows[0].id
-    
-    const requestObj = { request_id: requestId, headers: req.headers , body: req.body }
-    await useMongo.put(requestObj);
-
-    res.status(200).send('done');
+    await useMongo.put(newRequest);
+    res.status(200).send();
   } catch (error) {
-    next(error);
+    next('Bin not found or bad request');
   }
 })
 

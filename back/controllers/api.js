@@ -1,11 +1,8 @@
 const apiRouter = require("express").Router();
-const pgQuery = require("../lib/db-query");
 const { useMongo } = require("../models/mongo");
+const { usePostgres } = require("../models/postgres");
 
-// import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; // but switch to require?
-// import Welcome from "./components/Welcome.js" // do we need to make it .tsx?
-
-apiRouter.post('/', async (req, res) => {
+apiRouter.post('/', async (req, res, next) => {
   // random 20 chars
   function randomName() {
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -18,60 +15,44 @@ apiRouter.post('/', async (req, res) => {
   }
 
   // make new bin w/name `binName`
-  let binName = randomName()
+  let binName = randomName();
   
   // save new bin to db
-  const query = "INSERT INTO bins (name) VALUES ($1)" 
-  let insertResult = await pgQuery(query, binName);
+  try {
+    const result = await usePostgres.insertBin(binName);
+    if (!result) throw new Error();
+  } catch (error) {
+    next(error);
+    return;
+  }
 
-  // redirect user to /view/newBinName
-  // res.redirect(`/view/${binName}`)
-  let binNamePackage = JSON.stringify({ name: binName })
-  res.status(200).send(binNamePackage)
-
-  // need to return binName to construct path
+  let binNamePackage = JSON.stringify({ name: binName });
+  res.status(200).send(binNamePackage);
 })
 
-apiRouter.get('/', (req, res) => {
-  const data = [
-    {
-      id: 12,
-      date_received: '12/02/1999',
-      time_received: '08:24:33 UTC',
-      method: 'GET',
-      url: '/sample/get',
-      path: '/request?id=3439',
-      headers: { v1: 'sup', v2: 'k2', v3: 'k3', v4: 'k4'},
-      body: 'asdfja;sdflkjas;lfaslm425ijh241l24;l5m l;lmn 2;lkm541l3 m;l4im;46',
-    },
-    {
-      id: 13,
-      date_received: '12/02/1999',
-      time_received: '08:24:35 UTC',
-      method: 'POST',
-      url: '/sample/post',
-      path: '/request?id=3439',
-      headers: { v1: 'AYYYYY', oooooo: 'ahhhhh'},
-      body: '81f6awe1r31av4we did itvvvv;lkm541l3 f',
-    },
-  ];
-  res.status(200).send(JSON.stringify(data));
-});
-
 apiRouter.get('/:binName/requests', async (req, res) => {
-  const PG_GET_REQUESTS = 'SELECT r.id, r.bin_id, ' +
-                          'r.method, r.path, r.datetime_received ' +
-                          'FROM bins INNER JOIN requests AS r ' +
-                          'ON bins.id = r.bin_id ' +
-                          'WHERE bins.name = $1';
-
-  const pgResult = await pgQuery(PG_GET_REQUESTS, req.params.binName);
-  res.status(200).send(pgResult.rows);
+  try {
+    const requests = await usePostgres.findAllRequestsByBinName(req.params.binName);
+    res.status(200).send(requests);
+  } catch (error) {
+    next(error);
+  }
 });
 
-apiRouter.get('/:binName/requests/:requestId', async (req, res) => {
-  const request = await useMongo.getOne(+req.params.requestId);
-  res.status(200).send(request);
+apiRouter.get('/:binName/requests/:requestId', async (req, res, next) => {
+  try {
+    const request = await useMongo.getOne(+req.params.requestId);
+    if (!request) throw new Error();
+    res.status(200).send(request);
+  } catch (error) {
+    next(error);
+  }
 });
+
+function errorHandler(err, req, res, next) {
+  res.status(404).send({ error: 'bad request' });
+}
+
+apiRouter.use(errorHandler)
 
 module.exports = apiRouter;
