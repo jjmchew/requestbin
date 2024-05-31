@@ -17,7 +17,7 @@ app.use(express.raw({ limit: "1mb" }));
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
+app.use(express.static('dist'));
 app.use('/api', apiRouter);
 
 // temporary: to stop the stupid browser favicon requests from messing up console.logs
