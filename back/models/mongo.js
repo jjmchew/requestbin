@@ -22,13 +22,14 @@ const put = async (newObj) => {
   await mongo.close();
 }
 
-const getOne = async (requestId) => {
+const getOne = async (requestHash) => {
   await mongo.connect();
   const collection = mongo.db('requestbin').collection('requests');
 
-  let request = await collection.findOne({ request_id: requestId });
+  let request = await collection
+    .findOne({ hash: requestHash }, { projection: { _id: 0 }});
   await mongo.close();
-  return request
+  return request;
 }
 
 

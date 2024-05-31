@@ -8,13 +8,12 @@ async function findBinByName(binName) {
   return result.rows[0];
 }
 
-async function insertRequest(binId, method, path) {
-  const INSERT_REQUEST = 'INSERT INTO requests (bin_id, method, path) ' +
-                         'VALUES ($1, $2, $3) RETURNING id';
-  const result = await pgQuery(INSERT_REQUEST, binId, method, path);
+async function insertRequest(binId, method, path, hash) {
+  const INSERT_REQUEST = 'INSERT INTO requests (bin_id, method, path, hash) ' +
+                         'VALUES ($1, $2, $3, $4)';
+  const result = await pgQuery(INSERT_REQUEST, binId, method, path, hash);
 
-  if (result.rows.length === 0) return null;
-  return result.rows[0].id;
+  return result.rowCount === 1;
 }
 
 async function insertBin(binName) {
@@ -26,8 +25,7 @@ async function insertBin(binName) {
 }
 
 async function findAllRequestsByBinName(binName) {
-  const PG_GET_REQUESTS = 'SELECT r.id, r.bin_id, ' +
-                          'r.method, r.path, r.datetime_received ' +
+  const PG_GET_REQUESTS = 'SELECT r.hash, r.method, r.path, datetime_received ' +
                           'FROM bins INNER JOIN requests AS r ' +
                           'ON bins.id = r.bin_id ' +
                           'WHERE bins.name = $1';
