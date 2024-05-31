@@ -10,14 +10,12 @@ interface RequestListProps {
 const RequestList = ({ data, handleClick }: RequestListProps) => {
   const display = data.map(obj => {
     const dateObj = new Date(obj.datetime_received);
-    const timeOfDay = format.timeOfD(dateObj)
-
+    const timeOfDay = format.timeOfD(dateObj);
     return (
-      <div key={obj.id} className={classes.rowWrap} onClick={() => handleClick(obj.id)}>
+      <div key={obj.hash} className={classes.rowWrap} onClick={() => handleClick(obj.hash)}>
         <div className={classes.date}>{timeOfDay} </div>
         <div className={classes.method}>{obj.method}</div>
         <div className={classes.path}>{obj.url}</div>
-        <div className={classes.path}>{obj.path}</div>
       </div>
     );
   });

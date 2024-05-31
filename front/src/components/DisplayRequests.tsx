@@ -9,10 +9,10 @@ interface DisplayRequestsProps {
 }
 
 const DisplayRequests = ({ data, binName }: DisplayRequestsProps) => {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
-  const handleClick = (id: number) => {
-    setSelected(id);
+  const handleClick = (hash: string) => {
+    setSelected(hash);
   };
 
   console.log('DisplayRequests, selected:',selected);
@@ -20,7 +20,7 @@ const DisplayRequests = ({ data, binName }: DisplayRequestsProps) => {
     <>
       <div className={classes.container}>
         <RequestList data={data} handleClick={handleClick} />
-        <RequestDetail selectedId={selected} binName={binName} />
+        <RequestDetail selectedHash={selected} binName={binName} />
       </div>
     </>
   )
