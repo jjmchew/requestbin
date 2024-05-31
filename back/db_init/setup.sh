@@ -1,0 +1,1 @@
+psql requestbin < requestbin.sql

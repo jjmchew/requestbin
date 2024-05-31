@@ -1,23 +1,13 @@
 const apiRouter = require("express").Router();
+const { randomHash } = require("../lib/random-hash");
 const { useMongo } = require("../models/mongo");
 const { usePostgres } = require("../models/postgres");
 
-apiRouter.post('/', async (req, res, next) => {
-  // random 20 chars
-  function randomName() {
-    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let randomString = '';
-    for (let i = 0; i < 20; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
-      randomString += charset[randomIndex];
-    }
-    return randomString;
-  }
+const BIN_NAME_LENGTH = 20;
 
-  // make new bin w/name `binName`
-  let binName = randomName();
+apiRouter.post('/', async (req, res, next) => {
+  const binName = randomHash(BIN_NAME_LENGTH);
   
-  // save new bin to db
   try {
     const result = await usePostgres.insertBin(binName);
     if (!result) throw new Error();
@@ -39,10 +29,11 @@ apiRouter.get('/:binName/requests', async (req, res) => {
   }
 });
 
-apiRouter.get('/:binName/requests/:requestId', async (req, res, next) => {
+apiRouter.get('/:binName/requests/:requestHash', async (req, res, next) => {
   try {
-    const request = await useMongo.getOne(+req.params.requestId);
-    if (!request) throw new Error();
+    console.log(req.params.requestHash);
+    const request = await useMongo.getOne(req.params.requestHash);
+    if (!request) throw new Error('Request not found');
     res.status(200).send(request);
   } catch (error) {
     next(error);
@@ -50,7 +41,7 @@ apiRouter.get('/:binName/requests/:requestId', async (req, res, next) => {
 });
 
 function errorHandler(err, req, res, next) {
-  res.status(404).send({ error: 'bad request' });
+  res.status(404).send({ error: err.text });
 }
 
 apiRouter.use(errorHandler)

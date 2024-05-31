@@ -2,8 +2,11 @@ const config = require('./lib/config');
 const cors = require("cors");
 const express = require('express');
 const apiRouter = require("./controllers/api.js");
+const { randomHash } = require("./lib/random-hash.js");
 const { useMongo } =  require('./models/mongo.js');
 const { usePostgres } = require("./models/postgres.js");
+
+const HASH_LENGTH = 10;
 
 const app = express();
 
@@ -17,11 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/api', apiRouter);
 
-app.get('/', (req, res) => {
-  // res.redirect -> /public/welcome.html
-  res.redirect('/public/welcome.html')
-});
-
 // temporary: to stop the stupid browser favicon requests from messing up console.logs
 app.get('/favicon.ico', (req, res) => {
   res.status(404).send();
@@ -32,26 +30,30 @@ app.all('/:binName', async (req, res, next) => {
   try {
     const binName = req.params.binName;
     const bin = await usePostgres.findBinByName(binName);
+    if (!bin) throw new Error('Bin not found');
 
     const binId = bin.id;
-    const newRequestId = await usePostgres.insertRequest(binId, req.method, req.path);
-
+    const hash = randomHash(HASH_LENGTH);
     const newRequest = {
-      request_id: newRequestId,
+      hash: hash,
       headers: req.headers,
       body: req.body
     };
 
-    await useMongo.put(newRequest);
+    const pgRequest = usePostgres.insertRequest(binId, req.method, req.path, hash);
+    const mongoRequest = useMongo.put(newRequest);
+    await Promise.all([pgRequest, mongoRequest])
+      .catch(_err => { throw new Error('Request could not be saved') });
+
     res.status(200).send();
   } catch (error) {
-    next('Bin not found or bad request');
+    next(error);
   }
 })
 
 function errorHandler(err, req, res, next) {
   console.log(err);
-  res.status(400).send(err);
+  res.status(400).send({ error: err.text });
 }
 
 app.use(errorHandler);
