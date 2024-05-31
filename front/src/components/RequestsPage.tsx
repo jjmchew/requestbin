@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import TopBar from './TopBar.tsx'
 import DisplayRequests from './DisplayRequests'
 import { useLocation } from 'react-router-dom'
-import { baseURL } from '../constants.ts';
+import { baseURL } from '../utils.ts';
 
 
 const RequestsPage = () => {
@@ -16,7 +16,7 @@ const RequestsPage = () => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log('RequestsPage: data', data)
+      // console.log('RequestsPage: data', data)
       return data;
     } catch (error) {
       console.log(error);

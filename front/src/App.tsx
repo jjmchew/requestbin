@@ -8,11 +8,13 @@ function App() {
 
   return (
     <>
-      <div>requestBin</div>
+      <div>dumbstarFiya</div>
       <Routes>
         <Route path="/view/:binName" element={<RequestsPage />} />
         <Route path="/" element={<LandingPage />} />
       </Routes>
+      <h2>ya wanna burn one down?</h2>
+      <div>burn burn yea you wanna burn</div>
     </>
   )
 }

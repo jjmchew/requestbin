@@ -1,6 +1,6 @@
 // import classes from './RequestDetail.module.css';
-import { useEffect } from 'react'
-import { baseURL } from '../constants.ts'
+import { useEffect, useState } from 'react'
+import { baseURL } from '../utils.ts'
 
 interface RequestDetailProps {
   binName: string,
@@ -8,6 +8,7 @@ interface RequestDetailProps {
 }
 
 const RequestDetail = ({ binName, selectedId }: RequestDetailProps) => {
+  const [selected, setSelected] = useState<any>({});
 
   const makeRequest = async () => {
     let url = `${baseURL}/api/${binName}/requests/${selectedId}`;
@@ -15,19 +16,19 @@ const RequestDetail = ({ binName, selectedId }: RequestDetailProps) => {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      console.log('RequestDetail: data', data)
+      // console.log('RequestDetail: data', data)
       return data;
     } catch (error) {
       console.log(error);
     }
   };
 
-  let display = null;
-
   useEffect(()=> {
-    if (!selectedId) {
+    if (selectedId) {
       makeRequest().then(data => {
-        console.log('RequestDetail data: ', data);
+        // console.log('RequestDetail data: ', data);
+        setSelected(data)
+        
       });
     }
   }, [selectedId]);
@@ -35,7 +36,8 @@ const RequestDetail = ({ binName, selectedId }: RequestDetailProps) => {
   return (
     <div>
       <h1>Request Detail</h1>
-      {display}
+      {JSON.stringify(selected.headers)}
+      {JSON.stringify(selected.body)}
     </div>
   )
 };
