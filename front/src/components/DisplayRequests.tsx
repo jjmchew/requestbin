@@ -12,7 +12,6 @@ const DisplayRequests = ({ data, binName }: DisplayRequestsProps) => {
   const [selected, setSelected] = useState<number | null>(null);
 
   const handleClick = (id: number) => {
-    console.log('handleClick', id);
     setSelected(id);
   };
 

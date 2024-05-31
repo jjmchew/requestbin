@@ -1,6 +1,6 @@
 // import classes from './LandingPage.module.css';
 import { useNavigate } from 'react-router-dom'
-import { baseURL } from '../constants.ts'
+import { baseURL } from '../utils.ts'
 
 const LandingPage = () => {
 
@@ -9,11 +9,9 @@ const LandingPage = () => {
     const url = `${baseURL}/api`;
 
     try {
-        // const response = await fetch(url, {method: 'post'});
-        // const data = await response.json();
-        const data = 'boinay'; // temporary assignment for testing
-        console.log(data);
-        navigate(`/view/${data}`);
+        const response = await fetch(url, {method: 'post'});
+        const data = await response.json();
+        navigate(`/view/${data.name}`);
     } catch (e) {
         console.log(e)
     }
@@ -21,9 +19,9 @@ const LandingPage = () => {
 
   return (
     <>
-      <h1>Welcome to RequestBin</h1>
+      <h1>Welcome to DumpsterFire</h1>
       <div>
-        <button onClick={handleClick}>Create new bin</button>
+        <button onClick={handleClick}>Light a new fire</button>
       </div>
     </>
   );
